@@ -1,4 +1,63 @@
+:root {
+   --container-height: 600px;
+   --container-width: 600px;
+   --cell-size: calc(var(--container-height) / 3);
+   font-family: 'Varela Round', sans-serif;
+   --markSize: calc(var(--cell-size)*.9);
+}
+
 .container {
+    height: var(--container-height);
+    width: var(--container-width);
     display: grid;
+    background-color: white;
+    outline: solid 5px black;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--markSize);
+}
+
+.cell:hover {
+    background-color: lightgrey;
+}
+
+dialog {
+    display: none;
+    max-height: auto;
+    max-width: auto;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+dialog[open] {
+    display: flex;
+    flex-direction: column;
+
+    font-size: 1.3rem;
+}
+
+::backdrop {
+    background-color: rgba(0, 0, 0, .4);
+}
+
+#restart-btn {
+    width: 150px;
+    height: 60px;
+    font-size: 1.3rem;
+    border-radius: 5px;
+}
+
+#restart-btn:hover {
+    background-color: rgba(0, 0, 0, .2);
 }
