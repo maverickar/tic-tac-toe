@@ -14,6 +14,34 @@ const gameboard = {
 
 const displayController = {
 
+    removePreviousClasses: function() {
+        for(let i = 0; i < this.cells.length; i++) {
+            this.cells[i].className = "cell";
+        }
+    },
+
+    fillCell: function(targetCell) {
+        switch(gameController.currentTurn) {
+            case player1:
+                this.cells[targetCell].classList.add('.alpaca-fill');
+            case player2:
+                this.cells[targetCell].classList.add('.crab-fill');   
+        }
+    },
+
+    toggleClassEmptyCells: function() {
+        for(let i = 0; i < this.cells.length; i++) {
+            if(this.cells[i].classList.contains("alpaca-fill") || this.cells[i].classList.contains("crab-fill")) {
+                continue;
+            }
+            if(gameController.currentTurn === player1) {
+                this.cells[i].classList.add("alpaca-outline");
+            } else if(gameController.currentTurn === player2) {
+                this.cells[i].classList.add("crab-outline");
+            }
+        }
+    },
+    
     cacheDom: function() {
         this.cells = document.querySelectorAll('.cell');
         this.dialog = document.querySelector('.modal');
@@ -23,7 +51,11 @@ const displayController = {
 
     renderBoard: function() {
         for(let i = 0; i < this.cells.length; i++) {
-            this.cells[i].textContent = gameboard.board[i];
+            if(gameboard.board[i] === "X") {
+                this.cells[i].classList.add("alpaca-fill");
+            } else if(gameboard.board[i] === "O") {
+                this.cells[i].classList.add("crab-fill");
+            }
         }
     },
 
@@ -37,9 +69,14 @@ const displayController = {
 
     handleClick: function(e) {
         gameboard.setCell(e.target.id);
-        displayController.renderBoard();
+        // displayController.fillCell(e.target.id)
+        displayController.fillCell(e.target.id);
         gameController.roundCount++;
         gameController.changeTurns(); // is it OK if these two go here?
+        displayController.removePreviousClasses();
+        displayController.renderBoard();
+        displayController.toggleClassEmptyCells();
+
         gameController.checkWin();
     },
 
@@ -48,6 +85,9 @@ const displayController = {
         gameController.currentTurn = player1;
         gameController.gameOver = false;
         gameController.roundCount = 0;
+        for(let i = 0; i < displayController.cells.length; i++) {
+            displayController.cells[i].className = "cell alpaca-outline";
+        }
         displayController.winningMsg.textContent = "";
         gameController.init();
         displayController.dialog.close();
@@ -84,19 +124,18 @@ const gameController = {
             let index1 = winConditions[i][j];
             let index2 = winConditions[i][j+1];
             let index3 = winConditions[i][j+2];
-            console.log(index1, index2, index3)
             if(gameboard.board[index1] === "X" && gameboard.board[index2] === "X" && gameboard.board[index3] === "X") {
-                this.winner = "X"
+                this.winner = "Alpacas"
                 this.endGame(this.winner);
                 return;
             } else if(gameboard.board[index1] === "O" && gameboard.board[index2] === "O" && gameboard.board[index3] === "O") {
-                this.winner = "O"
+                this.winner = "Crabs"
                 this.endGame(this.winner);
                 return;
             } 
         }
 
-        if(gameController.roundCount === 9) {
+         if(gameController.roundCount === 9) {
             this.winner = "tie"
             this.endGame(this.winner);
             return;
@@ -105,12 +144,12 @@ const gameController = {
 
     endGame: function(winner) {
         switch(winner){
-            case "X":
-                displayController.winningMsg.textContent += `The winner is ${winner}`;
+            case "Alpacas":
+                displayController.winningMsg.textContent += `${winner} win!`;
                 displayController.dialog.showModal();
                 return;
-            case "O":
-                displayController.winningMsg.textContent += `The winner is ${winner}`;
+            case "Crabs":
+                displayController.winningMsg.textContent += `${winner} win!`;
                 displayController.dialog.showModal();
                 return;
             case "tie":
@@ -122,16 +161,19 @@ const gameController = {
     },
 
     changeTurns: function() {
-        this.currentTurn === player1 ? gameController.currentTurn = player2 : gameController.currentTurn = player1;
+        if(this.currentTurn === player1) {
+            gameController.currentTurn = player2;
+        } else {
+            gameController.currentTurn = player1;
+        }
     }, 
 
     init: function() {
         displayController.cacheDom();
         displayController.renderBoard();
         displayController.bindEvents();
-    }  
+    },
+
 };
 
 gameController.init();
-
-// TODO - diagonal checkwin

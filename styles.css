@@ -1,17 +1,29 @@
 :root {
-   --container-height: 600px;
-   --container-width: 600px;
-   --cell-size: calc(var(--container-height) / 3);
-   font-family: 'Varela Round', sans-serif;
-   --markSize: calc(var(--cell-size)*.9);
+    --container-height: 500px;
+    --container-width: 500px;
+    --cell-size: calc(var(--container-height) / 3);
+    font-family: 'Varela Round', sans-serif;
+    --markSize: calc(var(--cell-size)*.9);
+    /*color palette*/
+    --blue: #2F2FA2;
+    --red: #F64C72;
+    --brown: #553D67;
+    --dark-blue: #242582;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    background-color: var(--dark-blue);
 }
 
 .container {
+    margin: 50px 0;
     height: var(--container-height);
     width: var(--container-width);
     display: grid;
-    background-color: white;
-    outline: solid 5px black;
+    background-color: var(--blue);
+    outline: solid 5px var(--red);
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     
 }
@@ -19,15 +31,36 @@
 .cell {
     width: var(--cell-size);
     height: var(--cell-size);
-    border: 1px solid black;
+    border: 1px solid var(--red);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: var(--markSize);
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.cell:hover {
-    background-color: lightgrey;
+.cell.alpaca-fill {
+    background-image: url(/alpaca.svg);
+}
+
+.cell.crab-fill {
+    background-image: url(/crab.svg);
+}
+
+.cell.alpaca-outline:hover {
+    background-image: url(/alpaca-outline.svg);
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cell.crab-outline:hover {
+    background-image: url(/crab-outline.svg);
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 dialog {
