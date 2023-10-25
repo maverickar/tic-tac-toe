@@ -42,22 +42,22 @@ body {
 }
 
 .cell.alpaca-fill {
-    background-image: url(/alpaca.svg);
+    background-image: url(./alpaca.svg);
 }
 
 .cell.crab-fill {
-    background-image: url(/crab.svg);
+    background-image: url(./crab.svg);
 }
 
 .cell.alpaca-outline:hover {
-    background-image: url(/alpaca-outline.svg);
+    background-image: url(./alpaca-outline.svg);
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .cell.crab-outline:hover {
-    background-image: url(/crab-outline.svg);
+    background-image: url(./crab-outline.svg);
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
